@@ -2,7 +2,15 @@
 const nextConfig = {
   output: 'standalone',
   env: {
-    BACKEND_URL: process.env.BACKEND_URL || 'http://localhost:5000',
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000',
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/:path*`,
+      },
+    ];
   },
 }
 

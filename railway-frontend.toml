@@ -1,0 +1,27 @@
+[deploy]
+startCommand = "cd frontend && npm install && npm run build && npm start"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[build]
+builder = "NIXPACKS"
+
+[build.nixpacksConfig]
+nixpkgsArchive = "nixpkgs-unstable"
+
+[[build.nixpacksConfig.phases]]
+name = "setup"
+nixPkgs = ["nodejs-18_x", "npm-9_x"]
+
+[[build.nixpacksConfig.phases]]
+name = "install"
+cmds = ["cd frontend && npm install"]
+
+[[build.nixpacksConfig.phases]]
+name = "build"
+cmds = ["cd frontend && npm run build"]
+
+[start]
+cmd = "cd frontend && npm start"
